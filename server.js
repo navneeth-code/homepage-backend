@@ -27,7 +27,11 @@ app.get('/',(req,res) =>{
 
 app.get('/home',async(req,res)=>{
   const currentDate = new Date()
-  const home =await  homepage.find({'flashSale.startTime':{$gte:currentDate.toDateString()}})
+  const chome =await  homepage.find()
+  // chome.flashSale.startTime = null;
+  // chome.flashSale.endTime = null;
+  // chome.flashSale.product = [];
+   const home =await  homepage.find({'flashSale.startTime':{$gte:currentDate.toDateString()}})
   console.log(currentDate)
   res.send(home)//
 })
