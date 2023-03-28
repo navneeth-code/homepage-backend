@@ -14,8 +14,9 @@ const homePageSchema = new mongoose.Schema({
     flashSale:{
         startTime:Date,
         endTime:Date,
-        product:[String]
+        product:[String]//mongoose.Schema.Types.ObjectId
     },
+    imageBanner:[String],
     footerContent:{
         type:String,
         default:`

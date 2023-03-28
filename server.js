@@ -19,20 +19,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.set('view engine','ejs')
 app.use(methodOverride('_method'))
+app.use(express.static(__dirname + '/views'));
+
+app.get('/',(req,res) =>{
+  res.render('form')
+})
 
 app.get('/home',async(req,res)=>{
   const home =await  homepage.find()
   res.send({home})
 })
 app.post('/home',async(req,res)=>{
-  const {carouselImages,categoriesUrl,categoriesName,ocassions,discountBanner,offers,footerContent} = req.body;
-  const categories = []
-  for(let i=0;i<categoriesUrl.length;i++){
-    categories.push({url:`${categoriesUrl[i]}`,name:`${categoriesName[i]}`});
+  res.send(req.body)
+//   const {carouselImages,categoriesUrl,categoriesName,ocassions,discountBanner,offers,footerContent} = req.body;
+//   const categories = []
+//   for(let i=0;i<categoriesUrl.length;i++){
+//     categories.push({url:`${categoriesUrl[i]}`,name:`${categoriesName[i]}`});
 
-  }
-  const newhomepage = new homepage({carouselImages,categories,ocassions,discountBanner,offers,footerContent})
- await newhomepage.save()
+//   }
+//   const newhomepage = new homepage({carouselImages,categories,ocassions,discountBanner,offers,footerContent})
+//  await newhomepage.save()
 })
 app.put('/home/edit',async(req,res)=>{
   const {carouselImages,categoriesUrl,categoriesName,ocassions,discountBanner,offers,footerContent} = req.body;
