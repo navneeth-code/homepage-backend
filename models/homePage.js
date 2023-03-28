@@ -9,6 +9,13 @@ const homePageSchema = new mongoose.Schema({
     ocassions:[String],
     discountBanner:String,
     offers:[String],
+    spotlight:[{type:String}],//mongoose.Schema.Types.ObjectId
+    dealsOfTheDay:[String],
+    flashSale:{
+        startTime:Date,
+        endTime:Date,
+        product:[String]
+    },
     footerContent:{
         type:String,
         default:`

@@ -1,9 +1,10 @@
 const express = require('express');
-const hompage = require('./models/homePage')
+const homepage = require('./models/homePage')
 const app = express();
 const methodOverride = require('method-override')
 const path = require('path')
 const ejsMate = require('ejs-mate')
+const category = require('./assets/categories')
 
 // const bodyParser = require('body-parser')
 
@@ -42,7 +43,7 @@ app.put('/home/edit',async(req,res)=>{
   }
   const newhomepage = homepage.findOneAndUpdate({carouselImages,categories,ocassions,discountBanner,offers,footerContent})
 })
-app.delete('home/delete')
+// app.delete('home/delete')
 
 
 app.listen(PORT, () =>
