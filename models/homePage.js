@@ -25,5 +25,5 @@ const homePageSchema = new mongoose.Schema({
 })
 
 
-const homeModel = mongoose.model('homePage',HomeSchema)
+const homeModel = mongoose.model('homePage',homePageSchema)
 module.exports = homeModel;

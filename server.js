@@ -42,7 +42,7 @@ app.put('/home/edit',async(req,res)=>{
   }
   const newhomepage = homepage.findOneAndUpdate({carouselImages,categories,ocassions,discountBanner,offers,footerContent})
 })
-
+app.delete('home/delete')
 
 
 app.listen(PORT, () =>
