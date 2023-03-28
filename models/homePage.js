@@ -12,8 +12,8 @@ const homePageSchema = new mongoose.Schema({
     spotlight:[{type:String}],//mongoose.Schema.Types.ObjectId
     dealsOfTheDay:[String],
     flashSale:{
-        startTime:Date,
-        endTime:Date,
+        startTime:{type:Date, min:new Date().toDateString()},
+        endTime:{type:Date, min:new Date().toDateString()},
         product:[String]//mongoose.Schema.Types.ObjectId
     },
     imageBanner:[String],

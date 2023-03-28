@@ -26,30 +26,91 @@ app.get('/',(req,res) =>{
 })
 
 app.get('/home',async(req,res)=>{
-  const home =await  homepage.find()
-  res.send({home})
+  const currentDate = new Date()
+  const home =await  homepage.find({'flashSale.startTime':{$gte:currentDate.toDateString()}})
+  console.log(currentDate)
+  res.send(home)//
 })
 app.post('/home',async(req,res)=>{
-  res.send(req.body)
-//   const {carouselImages,categoriesUrl,categoriesName,ocassions,discountBanner,offers,footerContent} = req.body;
-//   const categories = []
-//   for(let i=0;i<categoriesUrl.length;i++){
-//     categories.push({url:`${categoriesUrl[i]}`,name:`${categoriesName[i]}`});
-
-//   }
-//   const newhomepage = new homepage({carouselImages,categories,ocassions,discountBanner,offers,footerContent})
-//  await newhomepage.save()
-})
-app.put('/home/edit',async(req,res)=>{
-  const {carouselImages,categoriesUrl,categoriesName,ocassions,discountBanner,offers,footerContent} = req.body;
+ 
+  const {carouselImages,
+  categoriesUrl,
+  categoriesName,
+  ocassions,
+  discountBanner,
+  offers,
+  spotlight,
+  dealsOfTheDay,
+  dealsOfTheDaystart,
+  dealsOfTheDayend,
+  flashdealProducts,
+  imageBanner,
+  footerContent} = req.body;//
   const categories = []
   for(let i=0;i<categoriesUrl.length;i++){
     categories.push({url:`${categoriesUrl[i]}`,name:`${categoriesName[i]}`});
 
   }
-  const newhomepage = homepage.findOneAndUpdate({carouselImages,categories,ocassions,discountBanner,offers,footerContent})
+  const flashSale ={
+    startTime:dealsOfTheDaystart,
+    endTime:dealsOfTheDayend,
+    product:flashdealProducts
+  }
+  const newhomepage = new homepage({carouselImages,
+  categories,
+  ocassions,
+  discountBanner,
+  offers,
+  spotlight,
+  dealsOfTheDay,
+  flashSale,
+  imageBanner,
+  footerContent})
+ await newhomepage.save()
+ res.send(newhomepage)
 })
-// app.delete('home/delete')
+app.put('/home/edit',async(req,res)=>{
+ 
+  const {carouselImages,
+  categoriesUrl,
+  categoriesName,
+  ocassions,
+  discountBanner,
+  offers,
+  spotlight,
+  dealsOfTheDay,
+  dealsOfTheDaystart,
+  dealsOfTheDayend,
+  flashdealProducts,
+  imageBanner,
+  footerContent} = req.body;//
+  const categories = []
+  for(let i=0;i<categoriesUrl.length;i++){
+    categories.push({url:`${categoriesUrl[i]}`,name:`${categoriesName[i]}`});
+
+  }
+  const flashSale ={
+    startTime:dealsOfTheDaystart,
+    endTime:dealsOfTheDayend,
+    product:flashdealProducts
+  }
+  const newhomepage = await homepage.findOneAndUpdate({carouselImages,
+  categories,
+  ocassions,
+  discountBanner,
+  offers,
+  spotlight,
+  dealsOfTheDay,
+  flashSale,
+  imageBanner,
+  footerContent})
+
+ res.send(newhomepage)
+})
+app.delete('home/delete/:id',async(req,res)=>{
+  const idx = req.params.id
+  await homepage.findByIdAndDelete(idx)
+})
 
 
 app.listen(PORT, () =>
