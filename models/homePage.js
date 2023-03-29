@@ -1,22 +1,16 @@
 const mongoose = require('mongoose')
+
+
 const homePageSchema = new mongoose.Schema({
     carouselImages:[String],
-    categories:[{
-        url:String,
-        name:String
-
-    }],
+    categories:[{type:mongoose.Schema.Types.ObjectId,ref:'category'}],
     ocassions:[String],
-    discountBanner:String,
-    offers:[String],
+    discountBanner:[{type:mongoose.Schema.Types.ObjectId,ref:'discountBanner'}],
+    offers:[{type:mongoose.Schema.Types.ObjectId,ref:'offer'}],
     spotlight:[{type:String}],//mongoose.Schema.Types.ObjectId
     dealsOfTheDay:[String],
-    flashSale:{
-        startTime:{type:Date, min:new Date().toDateString()},
-        endTime:{type:Date, min:new Date().toDateString()},
-        product:[String]//mongoose.Schema.Types.ObjectId
-    },
-    imageBanner:[String],
+    flashSale:{type:mongoose.Schema.Types.ObjectId,ref:'flashSale'},
+    imageBanner:[{type:mongoose.Schema.Types.ObjectId,ref:'imageBanner'}],
     footerContent:{
         type:String,
         default:`

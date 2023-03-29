@@ -1,0 +1,47 @@
+const {carouselImages,
+  categoriesUrl,
+  categoriesName,
+  ocassions,
+  discountBanner,
+  offers,
+  spotlight,
+  dealsOfTheDay,
+  dealsOfTheDaystart,
+  dealsOfTheDayend,
+  flashdealProducts,
+  imageBanner,
+  footerContent} = req.body;//
+  const currentHome = await homepage.findOne().populate('categories')
+  
+  for(let i=0;i<categoriesUrl.length;i++){
+    const Newcategory = await category.findByIdAndUpdate(currentHome.categories[i]._id,{url:`${categoriesUrl[i]}`,name:`${categoriesName[i]}`});
+   
+}
+  
+  
+  const newflashsale= await flashsale.findByIdAndUpdate({
+    startTime:dealsOfTheDaystart,
+    endTime:dealsOfTheDayend,
+    product:flashdealProducts
+  })
+  
+   
+   
+   
+  )
+
+  
+   for(let i=0;i<offers.length;i++){
+    const Newoffer= offer.findByIdAndUpdate({url:`${offers[i]}`});
+    const saved = await Newoffer.save()
+    newhomepage.offers.push(saved)
+
+  }
+  for(let i=0;i<discountBanner.length;i++){
+    const Newdiscount = await discountBannerS.findByIdAndUpdate(currentHome.discountBanner[{url:`${discountBanner[i]}`});
+   
+
+  }
+  for(let i=0;i<imageBanner.length;i++){
+    const NewdIb = await imageBannerS(currentHome.imageBanner[i]._id,{url:`${discountBanner[i]}`});
+    }

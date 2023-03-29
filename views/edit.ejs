@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <link rel="stylesheet" href="app.css">
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.1.slim.js" integrity="sha256-tXm+sa1uzsbFnbXt8GJqsgi2Tw+m4BLGDof6eUPjbtk=" crossorigin="anonymous"></script> -->
+    <script type="text/javascript" src="app.js"></script>
+</head>
+
+<body>
+<form action="/home/edit?_method=put" method="post">
+<% for(let i=0;i<home.carouselImages.length;i++) { %>
+   <input type="text" placeholder="enter the carousel images" value="<%=home.carouselImages[i]%>"  name="carouselImages" />
+   <br/>
+   <% } %>
+   <% for(let i=0;i<home.categories.length;i++) { %>
+   <input type="text" placeholder="enter the categories images" value="<%=home.categories[i].name%>" name="categoriesUrl" />
+   <input type="text" placeholder="enter the categories name" value="<%=home.categories[i].url%>"  name="categoriesName" />
+   
+   <br/>
+   <% } %>
+   <% for(let i=0;i<home.ocassions.length;i++) { %>
+   <input type="text" placeholder="enter the ocassions"  value="<%=home.ocassions[i]%>" name="ocassions" />
+ 
+   <br/>
+   <% } %>
+   <input type="text" placeholder="enter the discountbanner"  value="<%=home.discountBanner%>" name="discountBanner" />
+   <br/>
+   <% for(let i=0;i<home.offers.length;i++) { %>
+    <input type="text" placeholder="enter the offer"  value="<%=home.offers[i]%>" name="offers" />
+  
+    <br/>
+    <% } %>
+    <% for(let i=0;i<home.spotlight.length;i++) { %>
+    <input type="text" placeholder="enter the spotlight deals"  value="<%=home.spotlight[i]%>" name="spotlight" />
+  
+    <br/>
+    <% } %>
+    <% for(let i=0;i<home.dealsOfTheDay.length;i++) { %>
+    <input type="text" placeholder="enter the deals of the day"  value="<%=home.dealsOfTheDay[i]%>" name="dealsOfTheDay" />
+   
+    <br/>
+    <br/>
+    <% } %>
+  
+    <input type="datetime-local"   value="<%=home.flashSale.startTime%>" name="dealsOfTheDaystart" />
+    <input type="datetime-local" placeholder="end date"  value="<%=home.flashSale.endTime%>" name="dealsOfTheDayend" />
+    <% for(let i=0;i<home.flashSale.product.length;i++) { %>
+    <input type="text" placeholder="enter the flash"  value="<%=homehome.flashSale.product[i]%>" name="flashdealProducts" />
+  
+    <br/>
+    <% } %>
+    <% for(let i=0;i<home.imageBanner.length;i++) { %>
+    <input type="text" placeholder="enter the image"  value="<%=home.imageBanner[i]%>" name="imageBanner" />
+  
+    <br/><br/>
+    <% } %>
+     <button>submit</button>
+</form>
+</body>
+</html>
