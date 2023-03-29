@@ -32,7 +32,7 @@ app.use(async(req,res,next)=>{
   const currentday = currentDate.getDate()
   console.log(currentDate.getDate())
   if(chome){
-  if(chome.flashSale){
+  if(chome.flashSale && chome.flashSale.endTime){
     if(chome.flashSale.endTime.getDate() === currentday){
       if(chome.flashSale.endTime.getTime() >= currentTime){
        await homepage.findOneAndUpdate({flashSale:{}})
@@ -94,7 +94,8 @@ app.post('/home',async(req,res)=>{
 })
 app.put('/home/edit',async(req,res)=>{
  
-  const {carouselImages,
+  const {
+    carouselImages,
   categoriesUrl,
   categoriesName,
   ocassions,
@@ -129,8 +130,11 @@ app.put('/home/edit',async(req,res)=>{
   footerContent})
 
  res.send(newhomepage)
+
 })
-app.delete('home/delete/:id',async(req,res)=>{
+
+app.get('/home/delete/:id',async(req,res)=>{
+  console.log('delet route')
   const idx = req.params.id
   await homepage.findByIdAndDelete(idx)
 })
