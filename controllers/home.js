@@ -182,7 +182,8 @@ const addOffer = async(req,res)=>{
 
   }
   const homePage = await homepage.findOne().populate('offers')
- await homepage.findOneAndUpdate({offers:homePage.offers.concat(discount)})
+ await homepage.findOneAndUpdate({offers:homePage.offers.concat(offers)})
+ res.json("done baby")
 }
 
 const addImageBanner = async(req,res)=>{
