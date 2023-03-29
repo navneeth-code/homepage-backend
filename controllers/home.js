@@ -7,7 +7,7 @@ const offer = require('../models/offers')
 
 
 const createHomepage = async(req,res)=>{
- 
+ try{
   const {carouselImages,
   categoriesUrl,
   categoriesName,
@@ -48,6 +48,7 @@ const createHomepage = async(req,res)=>{
   dealsOfTheDay,
 footerContent})
 
+
   
    for(let i=0;i<offers.length;i++){
     const Newoffer= new offer({url:`${offers[i]}`});
@@ -68,8 +69,12 @@ footerContent})
 
   }
  const savedHome = await newhomepage.save()
- res.send(savedHome)
+ res.json({savedHome})
+ } catch(e){
+    res.send(e)
 }
+}
+
 
 const updateHomepage = async(req,res)=>{
  
@@ -96,7 +101,7 @@ const getHomepage =async(req,res)=>{
    .populate('offers')
    .populate('imageBanner')//{'flashSale.startTime':{$gte:currentDate.toDateString()}}
   console.log(home)
-  res.send(home)//
+  res.json({home})//
 }
 
 const addFlashsale =async(req,res)=>{
@@ -200,7 +205,9 @@ const deleteCategory =async(req,res)=>{
   
   const idx = req.params.id
   const resl=await category.findByIdAndDelete(idx)
-  res.send(resl)
+  if(resl){
+  res.json('deleted sucessfully')
+  }
 }
 
 const deleteImage = async(req,res)=>{
