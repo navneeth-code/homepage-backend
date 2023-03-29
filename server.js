@@ -25,14 +25,33 @@ app.get('/',(req,res) =>{
   res.render('form')
 })
 
+app.use(async(req,res,next)=>{
+  const chome =await  homepage.findOne({})
+  const currentDate = new Date();
+  const currentTime = currentDate.getTime()
+  const currentday = currentDate.getDate()
+  console.log(currentDate.getDate())
+  if(chome){
+  if(chome.flashSale){
+    if(chome.flashSale.endTime.getDate() === currentday){
+      if(chome.flashSale.endTime.getTime() >= currentTime){
+       await homepage.findOneAndUpdate({flashSale:{}})
+      
+      }
+    }
+  }
+  }
+  next()
+})
+
 app.get('/home',async(req,res)=>{
   const currentDate = new Date()
-  const chome =await  homepage.find()
+  
   // chome.flashSale.startTime = null;
   // chome.flashSale.endTime = null;
   // chome.flashSale.product = [];
-   const home =await  homepage.find({'flashSale.startTime':{$gte:currentDate.toDateString()}})
-  console.log(currentDate)
+   const home =await  homepage.find()//{'flashSale.startTime':{$gte:currentDate.toDateString()}}
+  
   res.send(home)//
 })
 app.post('/home',async(req,res)=>{
