@@ -124,9 +124,12 @@ const editcategories=async(req,res)=>{
 }
 const updateDiscountBanner = async(req,res)=>{
   const {bannerUrl} = req.body
+  console.log('update route')
   
-    const Newcategory = await discountBannerS.findByIdAndUpdate(req.params.id,{url:bannerUr,});
-
+    const Newcategory = await discountBannerS.findByIdAndUpdate(req.params.id,{url:bannerUrl});
+ if(Newcategory){
+   res.json("sucessfully updated")
+ }
   
 }
 const updateImageBanner = async(req,res)=>{
@@ -166,6 +169,7 @@ const addDiscount = async(req,res)=>{
   }
   const homePage = await homepage.findOne().populate('discountBanner')
  await homepage.findOneAndUpdate({discountBanner:homePage.discountBanner.concat(discount)})
+ res.json('done')
 }
 
 const addOffer = async(req,res)=>{

@@ -49,8 +49,8 @@ app.put('/home/edit/discountBanner/:id',homeController.updateDiscountBanner)
 app.put('/home/edit/imageBanner/:id',homeController.updateImageBanner)
 app.put('/home/edit/offer/:id',homeController.updateoffer)
 
-app.get('/home/add/category',homeController.addCategory)
-app.get('/home/add/discount',homeController.addDiscount)
+app.post('/home/add/category',homeController.addCategory)
+app.post('/home/add/discount',homeController.addDiscount)
  app.post('/home/add/offer',homeController.addOffer)
  app.post('/home/add/imageBanner',homeController.addImageBanner)
 
