@@ -4,6 +4,7 @@ const discountBannerS = require('../models/discountBanner')
 const flashsale = require('../models/flashSale')
 const imageBannerS = require('../models/imagebanners')
 const offer = require('../models/offers')
+const Error = require('express-error')
 
 
 const createHomepage = async(req,res)=>{
@@ -69,15 +70,19 @@ footerContent})
 
   }
  const savedHome = await newhomepage.save()
+ if(savedHome){
  res.json({savedHome})
+ }else{
+  res.status(500).json({msg:"something went wrong"})
+ }
  } catch(e){
-    res.send(e)
+    throw new Error("something went wrong")
 }
 }
 
 
 const updateHomepage = async(req,res)=>{
- 
+ try{
 const idx = req.params.id
 const {carouselImages,ocassions,spotlight,dealsOfTheDay,footerContent}= req.body
   const newhomepage = await homepage.findOneAndUpdate(idx,{
@@ -86,6 +91,14 @@ const {carouselImages,ocassions,spotlight,dealsOfTheDay,footerContent}= req.body
    spotlight:spotlight,
     dealsOfTheDay:dealsOfTheDay,
      footerContent})
+     if(newhomepage){
+      res.json({msg:"updated sucessfully"})
+      }else{
+       res.status(500).json({msg:"something went wrong"})
+      }
+  }catch(e){
+    throw new Error("something went wrong")
+  }
 }
 
 const getHomepage =async(req,res)=>{
@@ -100,8 +113,12 @@ const getHomepage =async(req,res)=>{
    .populate('flashSale')
    .populate('offers')
    .populate('imageBanner')//{'flashSale.startTime':{$gte:currentDate.toDateString()}}
-  console.log(home)
-  res.json({home})//
+   if(home){
+    res.json({home})
+    }else{
+     res.status(500).json({msg:"something went wrong"})
+    }
+  //
 }
 
 const addFlashsale =async(req,res)=>{
@@ -112,14 +129,22 @@ const addFlashsale =async(req,res)=>{
     product:flashdealProducts
   })
   const NewFlashSale = await Flashsale.save()
-  await homepage.findOneAndUpdate({flashSale:NewFlashSale})
-  
+  const newhomepage=await homepage.findOneAndUpdate({flashSale:NewFlashSale})
+  if(newhomepage){
+    res.json({msg:"sdded sucessfully"})
+    }else{
+     res.status(500).json({msg:"something went wrong"})
+    }
 }
 const editcategories=async(req,res)=>{
   const {categoriesUrl,categoriesName} = req.body
   
     const Newcategory = await category.findByIdAndUpdate(req.params.id,{url:categoriesUrl,name:categoriesName});
-  
+    if(Newcategory){
+      res.json({msg:"updated sucessfully"})
+      }else{
+       res.status(500).json({msg:"something went wrong"})
+      }
   
 }
 const updateDiscountBanner = async(req,res)=>{
@@ -129,16 +154,28 @@ const updateDiscountBanner = async(req,res)=>{
     const Newcategory = await discountBannerS.findByIdAndUpdate(req.params.id,{url:bannerUrl});
  if(Newcategory){
    res.json("sucessfully updated")
+ }else{
+  res.status(500).json({msg:"something went wrong"})
  }
   
 }
 const updateImageBanner = async(req,res)=>{
   const {bannerUrl} = req.body
   const Newcategory = await imageBannerS.findByIdAndUpdate(req.params.id,{url:bannerUrl});
+  if(Newcategory){
+    res.json("sucessfully updated")
+  }else{
+   res.status(500).json({msg:"something went wrong"})
+  }
     }
 const updateoffer = async(req,res)=>{
   const {bannerUrl} = req.body
   const Newcategory = await offer.findByIdAndUpdate(req.params.id,{url:bannerUrl});
+  if(Newcategory){
+    res.json("sucessfully updated")
+  }else{
+   res.status(500).json({msg:"something went wrong"})
+  }
     }
     
 const addCategory = async(req,res)=>{
@@ -154,8 +191,12 @@ const homePage = await homepage.findOne().populate('categories')
 const newcategory = homePage.categories.concat(categori)
 
   
- await homepage.findOneAndUpdate({categories:newcategory})
- console.log(newcategory)
+ const newhomepage = await homepage.findOneAndUpdate({categories:newcategory})
+ if(newhomepage){
+  res.json("sucessfully updated")
+}else{
+ res.status(500).json({msg:"something went wrong"})
+}
 }
 
 const addDiscount = async(req,res)=>{
@@ -168,8 +209,12 @@ const addDiscount = async(req,res)=>{
 
   }
   const homePage = await homepage.findOne().populate('discountBanner')
- await homepage.findOneAndUpdate({discountBanner:homePage.discountBanner.concat(discount)})
- res.json('done')
+ const newhomepage = await homepage.findOneAndUpdate({discountBanner:homePage.discountBanner.concat(discount)})
+ if(newhomepage){
+  res.json("sucessfully updated")
+}else{
+ res.status(500).json({msg:"something went wrong"})
+}
 }
 
 const addOffer = async(req,res)=>{
@@ -182,8 +227,12 @@ const addOffer = async(req,res)=>{
 
   }
   const homePage = await homepage.findOne().populate('offers')
- await homepage.findOneAndUpdate({offers:homePage.offers.concat(offers)})
- res.json("done baby")
+const newhomepage= await homepage.findOneAndUpdate({offers:homePage.offers.concat(offers)})
+if(newhomepage){
+  res.json("sucessfully updated")
+}else{
+ res.status(500).json({msg:"something went wrong"})
+}
 }
 
 const addImageBanner = async(req,res)=>{
@@ -196,37 +245,56 @@ const addImageBanner = async(req,res)=>{
 
   }
   const homePage = await homepage.findOne().populate('imageBanner')
- await homepage.findOneAndUpdate({imageBanner:homePage.imageBanner.concat(images)})
+ const newhomepage=await homepage.findOneAndUpdate({imageBanner:homePage.imageBanner.concat(images)})
+ if(newhomepage){
+  res.json("sucessfully updated")
+}else{
+ res.status(500).json({msg:"something went wrong"})
+}
 }
 
 const deleteHomepage = async(req,res)=>{
   
   const idx = req.params.id
   const resl=await homepage.findByIdAndDelete(idx)
-  res.send(resl)
+  if(resl){
+      res.json("sucessfully updated")
+    }else{
+     res.status(500).json({msg:"something went wrong"})
+    }
+  
 }
 
 const deleteCategory =async(req,res)=>{
-  
   const idx = req.params.id
   const resl=await category.findByIdAndDelete(idx)
   if(resl){
-  res.json('deleted sucessfully')
+    res.json("sucessfully updated")
+  }else{
+   res.status(500).json({msg:"something went wrong"})
   }
 }
-
 const deleteImage = async(req,res)=>{
   
   const idx = req.params.id
   const resl=await imageBannerS.findByIdAndDelete(idx)
-  res.send(resl)
+  if(resl){
+    res.json("sucessfully updated")
+  }else{
+   res.status(500).json({msg:"something went wrong"})
+  }
 }
 
 const deleteDiscount = async(req,res)=>{
-  
+  console.log("delete route")
   const idx = req.params.id
   const resl=await discountBannerS.findByIdAndDelete(idx)
-  res.send(resl)
+  if(resl){
+    res.json("sucessfully updated")
+  }else{
+   res.status(500).json({msg:"something went wrong"})
+  }
+  
 }
 
 const deleteoffer = async(req,res)=>{
@@ -234,6 +302,11 @@ const deleteoffer = async(req,res)=>{
   const idx = req.params.id
   const resl=await offer.findByIdAndDelete(idx)
   res.send(resl)
+  if(resl){
+    res.json("sucessfully updated")
+  }else{
+   res.status(500).json({msg:"something went wrong"})
+  }
 }
 const checkFlashTime = async(req,res,next)=>{
   const chome =await  homepage.findOne({}).populate('flashSale')

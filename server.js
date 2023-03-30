@@ -51,8 +51,8 @@ app.put('/home/edit/offer/:id',homeController.updateoffer)
 
 app.post('/home/add/category',homeController.addCategory)
 app.post('/home/add/discount',homeController.addDiscount)
- app.post('/home/add/offer',homeController.addOffer)
- app.post('/home/add/imageBanner',homeController.addImageBanner)
+app.post('/home/add/offer',homeController.addOffer)
+app.post('/home/add/imageBanner',homeController.addImageBanner)
 
 
 
