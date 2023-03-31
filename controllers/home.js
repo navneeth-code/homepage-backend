@@ -126,7 +126,8 @@ const addFlashsale =async(req,res)=>{
     const Flashsale = new flashsale({
     startTime:dealsOfTheDaystart,
     endTime:dealsOfTheDayend,
-    product:flashdealProducts
+    product:flashdealProducts,
+    disable:false
   })
   const NewFlashSale = await Flashsale.save()
   const newhomepage=await homepage.findOneAndUpdate({flashSale:NewFlashSale})
@@ -148,10 +149,10 @@ const editcategories=async(req,res)=>{
   
 }
 const updateDiscountBanner = async(req,res)=>{
-  const {bannerUrl} = req.body
+  const {bannerUrl,bannerName} = req.body
   console.log('update route')
   
-    const Newcategory = await discountBannerS.findByIdAndUpdate(req.params.id,{url:bannerUrl});
+    const Newcategory = await discountBannerS.findByIdAndUpdate(req.params.id,{url:bannerUrl,name:bannerName});
  if(Newcategory){
    res.json("sucessfully updated")
  }else{
@@ -160,8 +161,8 @@ const updateDiscountBanner = async(req,res)=>{
   
 }
 const updateImageBanner = async(req,res)=>{
-  const {bannerUrl} = req.body
-  const Newcategory = await imageBannerS.findByIdAndUpdate(req.params.id,{url:bannerUrl});
+  const {bannerUrl,bannerName} = req.body
+  const Newcategory = await imageBannerS.findByIdAndUpdate(req.params.id,{url:bannerUrl,name:bannerName});
   if(Newcategory){
     res.json("sucessfully updated")
   }else{
@@ -169,8 +170,8 @@ const updateImageBanner = async(req,res)=>{
   }
     }
 const updateoffer = async(req,res)=>{
-  const {bannerUrl} = req.body
-  const Newcategory = await offer.findByIdAndUpdate(req.params.id,{url:bannerUrl});
+  const {bannerUrl,bannerName} = req.body
+  const Newcategory = await offer.findByIdAndUpdate(req.params.id,{url:bannerUrl,name:bannerName});
   if(Newcategory){
     res.json("sucessfully updated")
   }else{
@@ -200,10 +201,10 @@ const newcategory = homePage.categories.concat(categori)
 }
 
 const addDiscount = async(req,res)=>{
-  const {bannerUrl} = req.body
+  const {bannerUrl,bannerName} = req.body
   const discount = []
   for(let i=0;i<bannerUrl.length;i++){
-    const Newcategory = new discountBannerS({url:`${bannerUrl[i]}`});
+    const Newcategory = new discountBannerS({url:`${bannerUrl[i]}`,name:`${bannerName[i]}`});
     const saved = await Newcategory.save()
     discount.push(saved)
 
@@ -218,10 +219,10 @@ const addDiscount = async(req,res)=>{
 }
 
 const addOffer = async(req,res)=>{
-  const {bannerUrl} = req.body
+  const {bannerUrl,bannerName} = req.body
   const offers = []
   for(let i=0;i<bannerUrl.length;i++){
-    const Newcategory = new offer({url:`${bannerUrl[i]}`});
+    const Newcategory = new offer({url:`${bannerUrl[i]}`,name:`${bannerName[i]}`});
     const saved = await Newcategory.save()
     offers.push(saved)
 
@@ -236,10 +237,10 @@ if(newhomepage){
 }
 
 const addImageBanner = async(req,res)=>{
-  const {bannerUrl} = req.body
+  const {bannerUrl,bannerName} = req.body
   const images = []
   for(let i=0;i<bannerUrl.length;i++){
-    const Newcategory = new imageBannerS({url:`${bannerUrl[i]}`});
+    const Newcategory = new imageBannerS({url:`${bannerUrl[i]}`,name:`${bannerName[i]}`});
     const saved = await Newcategory.save()
     images.push(saved)
 
@@ -313,12 +314,12 @@ const checkFlashTime = async(req,res,next)=>{
   const currentDate = new Date();
   const currentTime = currentDate.getTime()
   const currentday = currentDate.getDate()
-  console.log(currentDate.getDate())
+  
   if(chome){
   if(chome.flashSale && chome.flashSale.endTime){
     if(chome.flashSale.endTime.getDate() === currentday){
       if(chome.flashSale.endTime.getTime() >= currentTime){
-       await flashsale.findByIdAndDelete(chome.flashSale._id)
+       await flashsale.findByIdAndUpdate(chome.flashSale._id,{disable:true})
       
       }
     }

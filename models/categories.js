@@ -6,4 +6,4 @@ const categorySchema = new mongoose.Schema({
         
         
 const categoryModel = mongoose.model('category',categorySchema)
-module.exports = categoryModel;
+module.exports = categoryModel;//make it object add key value is array of objects pair
